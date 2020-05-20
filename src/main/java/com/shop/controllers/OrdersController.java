@@ -14,6 +14,7 @@ import com.shop.repositories.ManufacturerRepository;
 import com.shop.repositories.OrderLineRepository;
 import com.shop.repositories.OrdersRepository;
 import com.shop.repositories.ProductRepository;
+import com.shop.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,6 +40,9 @@ public class OrdersController {
     @Autowired
     private OrderLineRepository orderLineRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("/orders")
     public List<Orders> getOrders() {
         return orderRepository.findAll();
@@ -48,7 +52,7 @@ public class OrdersController {
     public void createOrders() {
 
         ItemCreator itemCreator = new ItemCreator(orderRepository, manufacturerRepository, productRepository,
-                orderLineRepository);
+                orderLineRepository, userRepository);
         itemCreator.create();
     }
 
