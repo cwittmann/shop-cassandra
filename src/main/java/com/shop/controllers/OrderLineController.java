@@ -25,12 +25,17 @@ public class OrderLineController {
     private OrderLineRepository orderLineRepository;
 
     @GetMapping("/orderLines")
-    public List<OrderLine> getOrderLine() {
+    public List<OrderLine> getOrderLines() {
         return orderLineRepository.findAll();
     }
 
+    @GetMapping("/orderLinesOfOrder/{orderId}")
+    public List<OrderLine> getOrderLinesOfOrder(@PathVariable UUID orderId) {
+        return orderLineRepository.findByOrderId(orderId);
+    }
+
     @GetMapping("/orderLines/{id}")
-    public OrderLine getOrder(@PathVariable UUID id) {
+    public OrderLine getOrderLine(@PathVariable UUID id) {
         Optional<OrderLine> orderLine = orderLineRepository.findById(id);
         if (orderLine.isPresent()) {
             return orderLine.get();
@@ -39,12 +44,12 @@ public class OrderLineController {
     }
 
     @PostMapping("/orderLines")
-    public OrderLine postOrder(@RequestBody OrderLine orderLine) {
+    public OrderLine postOrderLine(@RequestBody OrderLine orderLine) {
         return orderLineRepository.insert(orderLine);
     }
 
     @PutMapping("/orderLines")
-    public OrderLine putOrder(@RequestBody OrderLine newOrder, @PathVariable UUID id) {
+    public OrderLine putOrderLine(@RequestBody OrderLine newOrder, @PathVariable UUID id) {
         Optional<OrderLine> orderLine = orderLineRepository.findById(id);
         if (orderLine.isPresent()) {
             return orderLineRepository.save(newOrder);
@@ -53,7 +58,7 @@ public class OrderLineController {
     }
 
     @DeleteMapping("/orderLines")
-    public void deleteOrder(@PathVariable UUID id) {
+    public void deleteOrderLine(@PathVariable UUID id) {
         orderLineRepository.deleteById(id);
     }
 }
