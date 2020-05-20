@@ -1,7 +1,10 @@
 package com.shop.models;
 
-import java.util.Date;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.UUID;
+
+import com.datastax.driver.core.LocalDate;
 
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
@@ -15,10 +18,10 @@ public class Orders {
     @PrimaryKey
     public UUID id;
     public UUID userId;
-    public Date date;
+    public LocalDate date;
     public OrderStatus status;
 
-    public Orders(UUID id, UUID userId, Date date, OrderStatus status) {
+    public Orders(UUID id, UUID userId, LocalDate date, OrderStatus status) {
         this.id = id;
         this.userId = userId;
         this.date = date;
