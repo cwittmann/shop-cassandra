@@ -5,14 +5,10 @@ import java.util.UUID;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Table
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 
 public class Product {
 
@@ -22,4 +18,12 @@ public class Product {
     public String name;
     public String description;
     public String price;
+
+    public Product(UUID id, UUID manufacturerId, String name, String description, String price) {
+        this.id = id;
+        this.manufacturerId = manufacturerId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
 }

@@ -1,7 +1,5 @@
 package com.shop.models;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.datastax.driver.core.LocalDate;

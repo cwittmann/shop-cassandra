@@ -5,14 +5,10 @@ import java.util.UUID;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Table
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 
 public class OrderLine {
 
@@ -21,4 +17,11 @@ public class OrderLine {
     public UUID orderId;
     public UUID productId;
     public Integer amount;
+
+    public OrderLine(UUID id, UUID orderId, UUID productId, Integer amount) {
+        this.id = id;
+        this.orderId = orderId;
+        this.productId = productId;
+        this.amount = amount;
+    }
 }

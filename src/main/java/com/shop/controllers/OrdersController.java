@@ -8,10 +8,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.datastax.driver.core.LocalDate;
-import com.shop.models.OrderStatus;
+import com.shop.creator.ItemCreator;
 import com.shop.models.Orders;
+import com.shop.repositories.ManufacturerRepository;
+import com.shop.repositories.OrderLineRepository;
 import com.shop.repositories.OrdersRepository;
+import com.shop.repositories.ProductRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,27 +28,33 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrdersController {
 
     @Autowired
-    private OrdersRepository repository;
+    private OrdersRepository orderRepository;
+
+    @Autowired
+    private ManufacturerRepository manufacturerRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private OrderLineRepository orderLineRepository;
 
     @GetMapping("/orders")
     public List<Orders> getOrders() {
-        return repository.findAll();
+        return orderRepository.findAll();
     }
 
     @GetMapping("/ordersCreate")
-    public List<Orders> createOrders() {
+    public void createOrders() {
 
-        Orders order = new Orders(UUID.randomUUID(), UUID.randomUUID(), LocalDate.fromDaysSinceEpoch(1),
-                OrderStatus.Created);
-
-        repository.insert(order);
-
-        return repository.findAll();
+        ItemCreator itemCreator = new ItemCreator(orderRepository, manufacturerRepository, productRepository,
+                orderLineRepository);
+        itemCreator.create();
     }
 
     @GetMapping("/orders/{id}")
     public Orders getOrder(@PathVariable UUID id) {
-        Optional<Orders> order = repository.findById(id);
+        Optional<Orders> order = orderRepository.findById(id);
         if (order.isPresent()) {
             return order.get();
         }
@@ -55,20 +63,20 @@ public class OrdersController {
 
     @PostMapping("/orders")
     public Orders postOrder(@RequestBody Orders order) {
-        return repository.insert(order);
+        return orderRepository.insert(order);
     }
 
     @PutMapping("/orders")
     public Orders putOrder(@RequestBody Orders newOrder, @PathVariable UUID id) {
-        Optional<Orders> order = repository.findById(id);
+        Optional<Orders> order = orderRepository.findById(id);
         if (order.isPresent()) {
-            return repository.save(newOrder);
+            return orderRepository.save(newOrder);
         }
         return null;
     }
 
     @DeleteMapping("/orders")
     public void deleteOrder(@PathVariable UUID id) {
-        repository.deleteById(id);
+        orderRepository.deleteById(id);
     }
 }
