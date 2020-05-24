@@ -1,20 +1,11 @@
 package com.shop.controllers;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.shop.creator.ItemCreator;
 import com.shop.models.Orders;
-import com.shop.repositories.ManufacturerRepository;
-import com.shop.repositories.OrderLineRepository;
 import com.shop.repositories.OrdersRepository;
-import com.shop.repositories.ProductRepository;
-import com.shop.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,29 +24,9 @@ public class OrdersController {
     @Autowired
     private OrdersRepository orderRepository;
 
-    @Autowired
-    private ManufacturerRepository manufacturerRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private OrderLineRepository orderLineRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
     @GetMapping("/orders")
     public List<Orders> getOrders() {
         return orderRepository.findAll();
-    }
-
-    @GetMapping("/ordersCreate")
-    public void createOrders() {
-
-        ItemCreator itemCreator = new ItemCreator(orderRepository, manufacturerRepository, productRepository,
-                orderLineRepository, userRepository);
-        itemCreator.create();
     }
 
     @GetMapping("/orders/{id}")
